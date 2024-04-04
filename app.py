@@ -57,25 +57,23 @@ def add():
 
 @app.route("/update", methods=['GET','POST']) #Update Details
 def update():
-  if request.method == 'GET':
-    cur = mysql.cursor() #create a connection to the SQL instance
-    cur.execute('''SELECT * FROM students''') # execute an SQL statment
-    rv = cur.fetchall() #Retreive all rows returend by the SQL statment
-    Results=[]
-    for row in rv: #Format the Output Results and add to return string
-      Result={}
-      Result['Name']=row[0].replace('\n',' ')
-      Result['Email']=row[1]
-      Result['ID']=row[2]
-      Results.append(Result)
-    response={'Results':Results, 'count':len(Results)}
-    ret=app.response_class(
-      response=json.dumps(response),
-      status=200,
-      mimetype='application/json'
-    )
-    return ret
-  elif request.method == 'POST':
+  cur = mysql.cursor() #create a connection to the SQL instance
+  cur.execute('''SELECT * FROM students''') # execute an SQL statment
+  rv = cur.fetchall() #Retreive all rows returend by the SQL statment
+  Results=[]
+  for row in rv: #Format the Output Results and add to return string
+    Result={}
+    Result['Name']=row[0].replace('\n',' ')
+    Result['Email']=row[1]
+    Result['ID']=row[2]
+    Results.append(Result)
+  response={'Results':Results, 'count':len(Results)}
+  ret=app.response_class(
+    response=json.dumps(response),
+    status=200,
+    mimetype='application/json'
+  )
+  if request.method == 'POST':
     name = request.form['name']
     email = request.form['email']
     print(name,email)
