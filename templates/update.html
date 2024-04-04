@@ -1,29 +1,43 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
-<meta charset="utf-8">
-
-<meta name="viewport" content="width=device-width">
-
-<title>Update Item</title>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Update Item</title>
 </head>
-
 <body>
 
-  <form action="/update" method="POST">
+<h2>Update Item</h2>
 
-    Name: <input type="text", name="name">
+<form action="/update" method="POST">
+    <select name="id">
+        <?php
+        // Connect to the database
+        $conn = mysqli_connect("localhost", "web", "webPass", "student");
 
-    Email: <input type="text", name="email">
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
 
-    <button type="submit" name="submit">Add</button>
+        // Fetch data from the database to populate the select dropdown
+        $sql = "SELECT id, name FROM your_table_name"; // Change this to your table name
+        $result = $conn->query($sql);
 
-  </form>    
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>";
+            }
+        } else {
+            echo "<option value=''>No items available</option>";
+        }
+        $conn->close();
+        ?>
+    </select><br><br>
+    New Name: <input type="text" name="name"><br><br>
+    New Email: <input type="text" name="email"><br><br>
+    <button type="submit" name="submit">Update</button>
+</form>
 
 </body>
-
 </html>

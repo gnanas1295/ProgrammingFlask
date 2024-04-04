@@ -57,33 +57,24 @@ def add():
 
 @app.route("/update", methods=['GET','POST']) #Update Details
 def update():
-  cur = mysql.cursor() #create a connection to the SQL instance
-  cur.execute('''SELECT * FROM students''') # execute an SQL statment
-  rv = cur.fetchall() #Retreive all rows returend by the SQL statment
-  Results=[]
-  for row in rv: #Format the Output Results and add to return string
-    Result={}
-    Result['Name']=row[0].replace('\n',' ')
-    Result['Email']=row[1]
-    Result['ID']=row[2]
-    Results.append(Result)
-  response={'Results':Results, 'count':len(Results)}
-  ret=app.response_class(
-    response=json.dumps(response),
-    status=200,
-    mimetype='application/json'
-  )
-  if request.method == 'POST':
-    name = request.form['name']
-    email = request.form['email']
-    print(name,email)
-    cur = mysql.cursor() #create a connection to the SQL instance
-    s='''UPDATE students SET email = '{}' WHERE name = '{}';'''.format(name,email)
-    app.logger.info(s)
-    cur.execute(s)
-    mysql.commit()
-  else:
-    return render_template('update.html')
+  try:
+        # Connect to the database
+        cur = mysql.cursor() #create a connection to the SQL instance
+
+        # Get the form data
+        item_id = request.form['id']
+        new_name = request.form['name']
+        new_email = request.form['email']
+
+        # Update the item in the database
+        update_query = "UPDATE your_table_name SET name = %s, email = %s WHERE id = %s"
+        cur.execute(update_query, (new_name, new_email, item_id))
+        cur.commit()
+
+        return 'Item updated successfully'
+      
+  except Error as e:
+      return f'Error updating item: {e}'
 
   return '{"Result":"Success"}'
 
