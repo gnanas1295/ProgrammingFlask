@@ -29,12 +29,6 @@
 </table>
 
 <form action="/update" method="POST">
-    {% comment %} <select name="id">
-        {% for result in results %}
-            <option value="{{ result.studentName }}">{{result.studentName}}</option>
-            <option value="{{ result.studentName }}">{{result.email}}</option>
-        {% endfor %}
-    </select><br><br> {% endcomment %}
     Name: <input type="text" name="name"><br><br>
     New Email: <input type="text" name="email"><br><br>
     <button type="submit" name="submit">Update</button>
