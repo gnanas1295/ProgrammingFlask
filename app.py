@@ -77,7 +77,7 @@ def update():
     else:
         # Fetch data to populate the dropdown list
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute("SELECT studentID, studentName FROM students")
+        cursor.execute("SELECT studentID, studentName, email FROM students")
         results = cursor.fetchall()
         print(results)
         mysql.close()
