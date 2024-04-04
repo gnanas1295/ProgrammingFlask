@@ -73,10 +73,8 @@ def update():
 
         return 'Item updated successfully'
       
-  except Error as e:
+  except Exception as e:
       return f'Error updating item: {e}'
-
-  return '{"Result":"Success"}'
 
 
 
