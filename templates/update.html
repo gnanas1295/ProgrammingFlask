@@ -11,28 +11,9 @@
 
 <form action="/update" method="POST">
     <select name="id">
-        <?php
-        // Connect to the database
-        $conn = mysqli_connect("localhost", "web", "webPass", "student");
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Fetch data from the database to populate the select dropdown
-        $sql = "SELECT id, name FROM your_table_name"; // Change this to your table name
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>";
-            }
-        } else {
-            echo "<option value=''>No items available</option>";
-        }
-        $conn->close();
-        ?>
+        {% for result in results %}
+            <option value="{{ result.ID }}">{{ result.Name }}</option>
+        {% endfor %}
     </select><br><br>
     New Name: <input type="text" name="name"><br><br>
     New Email: <input type="text" name="email"><br><br>

@@ -55,28 +55,33 @@ def add():
 
   return '{"Result":"Success"}'
 
-@app.route("/update", methods=['GET','POST']) #Update Details
+# Route for updating an item
+@app.route("/update", methods=['GET', 'POST'])
 def update():
-  try:
-        # Connect to the database
-        cur = mysql.cursor() #create a connection to the SQL instance
-
-        # Get the form data
+    if request.method == 'POST':
+        # Retrieve form data
         item_id = request.form['id']
         new_name = request.form['name']
         new_email = request.form['email']
-
+        
+        # Connect to MySQL
+        cur = mysql.cursor()
+        
         # Update the item in the database
-        update_query = "UPDATE your_table_name SET name = %s, email = %s WHERE id = %s"
+        update_query = "UPDATE students SET studentName = %s, email = %s WHERE ID = %s"
         cur.execute(update_query, (new_name, new_email, item_id))
-        cur.commit()
+        mysql.commit()
+        mysql.close()
 
-        return 'Item updated successfully'
-      
-  except Exception as e:
-      return f'Error updating item: {e}'
+        return '{"Result":"Success"}'
+    else:
+        # Fetch data to populate the dropdown list
+        cursor = mysql.cursor(dictionary=True)
+        cursor.execute("SELECT ID, studentName FROM students")
+        results = cursor.fetchall()
+        mysql.close()
 
-
+        return render_template('update.html', results=results)
 
 @app.route("/") #Default - Show Data
 def hello(): # Name of the method
