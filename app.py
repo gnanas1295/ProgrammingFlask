@@ -79,6 +79,7 @@ def update():
         cursor = mysql.cursor(dictionary=True)
         cursor.execute("SELECT studentID, studentName FROM students")
         results = cursor.fetchall()
+        print(results)
         mysql.close()
 
         return render_template('update.html', results=results)
