@@ -71,17 +71,44 @@ def update():
         update_query = "UPDATE students SET email = %s WHERE studentName = %s"
         cur.execute(update_query, (new_email, new_name))
         mysql.commit()
-        mysql.close()
-
+        
         return '{"Result":"Success"}'
     else:
         # Fetch data to populate the dropdown list
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute("SELECT studentID, studentName, email FROM students")
+        cursor.execute("SELECT studentName, email FROM students")
         results = cursor.fetchall()
         print(results)
 
         return render_template('update.html', results=results)
+
+#Route for Deleting an item
+@app.route("/delete", methods=['GET', 'POST'])
+def delete():
+    if request.method == 'POST':
+        # Retrieve form data
+        # item_id = request.form['id']
+        new_name = request.form['name']
+        # new_email = request.form['email']
+        
+        # Connect to MySQL
+        cur = mysql.cursor()
+        
+        # Update the item in the database
+        delete_query = "DELETE from students WHERE studentName = %s"
+        cur.execute(delete_query, (new_name))
+        mysql.commit()
+        
+        return '{"Result":"Success"}'
+    else:
+        # Fetch data to populate the dropdown list
+        cursor = mysql.cursor(dictionary=True)
+        cursor.execute("SELECT studentName, email FROM students")
+        results = cursor.fetchall()
+        print(results)
+
+        return render_template('delete.html', results=results)
+
 
 @app.route("/") #Default - Show Data
 def hello(): # Name of the method
