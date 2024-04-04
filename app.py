@@ -60,7 +60,7 @@ def add():
 def update():
     if request.method == 'POST':
         # Retrieve form data
-        item_id = request.form['id']
+        # item_id = request.form['id']
         new_name = request.form['name']
         new_email = request.form['email']
         
@@ -68,8 +68,8 @@ def update():
         cur = mysql.cursor()
         
         # Update the item in the database
-        update_query = "UPDATE students SET studentName = %s, email = %s WHERE studentID = %s"
-        cur.execute(update_query, (new_name, new_email, item_id))
+        update_query = "UPDATE students SET email = %s WHERE studentName = %s"
+        cur.execute(update_query, (new_email, new_name))
         mysql.commit()
         mysql.close()
 
@@ -80,7 +80,6 @@ def update():
         cursor.execute("SELECT studentID, studentName, email FROM students")
         results = cursor.fetchall()
         print(results)
-        mysql.close()
 
         return render_template('update.html', results=results)
 

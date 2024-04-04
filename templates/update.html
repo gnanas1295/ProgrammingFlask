@@ -8,15 +8,34 @@
 <body>
 
 <h2>Update Item</h2>
+<h3>Detail Contents</h3>
+<table border="1">
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for row in results %}
+      <tr>
+          <td>{{ row.ID }}</td>
+          <td>{{ row.studentName }}</td>
+          <td>{{ row.email }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
 
 <form action="/update" method="POST">
-    <select name="id">
+    {% comment %} <select name="id">
         {% for result in results %}
             <option value="{{ result.studentName }}">{{result.studentName}}</option>
             <option value="{{ result.studentName }}">{{result.email}}</option>
         {% endfor %}
-    </select><br><br>
-    New Name: <input type="text" name="name"><br><br>
+    </select><br><br> {% endcomment %}
+    Name: <input type="text" name="name"><br><br>
     New Email: <input type="text" name="email"><br><br>
     <button type="submit" name="submit">Update</button>
 </form>
