@@ -68,7 +68,7 @@ def update():
         cur = mysql.cursor()
         
         # Update the item in the database
-        update_query = "UPDATE students SET studentName = %s, email = %s WHERE ID = %s"
+        update_query = "UPDATE students SET studentName = %s, email = %s WHERE studentID = %s"
         cur.execute(update_query, (new_name, new_email, item_id))
         mysql.commit()
         mysql.close()
@@ -77,7 +77,7 @@ def update():
     else:
         # Fetch data to populate the dropdown list
         cursor = mysql.cursor(dictionary=True)
-        cursor.execute("SELECT ID, studentName FROM students")
+        cursor.execute("SELECT studentID, studentName FROM students")
         results = cursor.fetchall()
         mysql.close()
 
