@@ -96,7 +96,7 @@ def delete():
         
         # Update the item in the database
         delete_query = "DELETE from students WHERE studentName = %s"
-        cur.execute(delete_query, (new_name))
+        cur.execute(delete_query, (new_name,))
         mysql.commit()
         
         return '{"Result":"Success"}'
